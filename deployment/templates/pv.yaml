@@ -1,0 +1,23 @@
+{{- if .Values.pvc -}}{{- if .Values.pvc.pv -}}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+    namespace: {{.Values.namespace}}
+    {{- if .Values.pvc.pv.name}}
+    name: {{.Values.pvc.pv.name}}
+    {{else}}
+    name: {{.Values.pvc.name}}
+    {{- end}}
+spec:
+  persistentVolumeReclaimPolicy: Delete
+  accessModes:
+    {{- range .Values.pvc.accessModes }}
+    - {{ . }}
+    {{- end}}
+  capacity:
+    storage: {{.Values.pvc.storage}}
+  storageClassName: {{.Values.pvc.storageClassName}}
+  # custom defined
+  {{.Values.pvc.pv | toYaml | indent 2 | trim}}
+
+{{- end}}{{- end}}

@@ -1,0 +1,100 @@
+{{- if .Values.deploy -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{.Values.namespace}}
+  name: {{ .Values.deploy.name }}
+  labels:
+    deployment: {{ .Values.deploy.name }}
+spec:
+  selector:
+    matchLabels:
+      deployment: {{ .Values.deploy.expose }}
+  replicas: {{ .Values.deploy.replicas }}
+  template:
+    metadata:
+      labels:
+        deployment: {{ .Values.deploy.expose }}
+    spec:
+      {{- if .Values.deploy.imagePullSecrets }}
+      imagePullSecrets:
+      {{- range .Values.deploy.imagePullSecrets}}
+      - name: {{ . }}
+      {{- end }} {{- end }}
+      containers:
+      {{- range $container := .Values.deploy.containers }}
+      - image:  {{ .image }}
+        imagePullPolicy: Always
+        name: {{.name}}
+
+        {{- if $container.environment}}
+
+        env:
+        {{- range $container.environment.value }}{{- range $envname, $envvalue := .}}
+        - name: {{$envname}}
+          value: {{$envvalue | quote}}
+        {{- end}}{{- end}}
+
+        {{- range $container.environment.valueFrom }}
+        - name: {{.name}}
+          {{- range $valuename, $valuefrom := .}} {{ if ne $valuename "name" }}
+          valueFrom:
+            {{$valuename}}:{{$valuefrom | toYaml | nindent 14 }}
+          {{ end }}{{- end}}
+        {{- end}}
+
+        {{- end}}
+
+
+        {{- if $container.ports }}
+        ports:
+        {{- range $container.ports }}{{- range $port, $targetPort := .}}
+        - containerPort: {{ $targetPort }}
+          protocol: TCP
+        {{- end }} {{- end }}
+        {{- end}}
+
+        {{- if $container.volumes}}
+        volumeMounts:
+        {{- range $container.volumes }}{{- range $volumename, $mountpath := .}}
+
+        - name: {{ (split "/" $volumename)._0 }}
+          mountPath: {{ $mountpath }}
+          {{- if (split "/" $volumename)._1}}
+          subPath: {{  slice (splitList  "/" $volumename) 1 | join "/" }}
+          {{- end }}
+
+        {{- end }}{{- end }}
+        {{- end}}
+
+        {{- end }}
+
+      {{- if .Values.deploy.volumes }}
+      volumes: {{.Values.deploy.volumes | toYaml | nindent 6 }}
+      {{- end}}
+
+      {{- if .Values.deploy.extra }}
+      {{ .Values.deploy.extra | toYaml | nindent 6 }}
+      {{- end}}
+
+{{- end }}
+{{ if  ((.Values.deploy).expose) -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{.Values.namespace}}
+  name: {{ .Values.deploy.expose }}
+spec:
+  selector:
+    deployment: {{ .Values.deploy.expose }}
+  ports:
+  {{- range .Values.deploy.containers }}{{- range .ports }}{{- range $name_port, $targetport := .}}
+  {{- $portname := (split " " $name_port)._0 }}
+  {{- $port := (split " " $name_port)._1 }}
+  - name: {{ quote $portname }}
+    port: {{ if eq $port "" }} {{ $portname }} {{ else }} {{ $port }} {{ end }}
+    protocol: TCP
+    targetPort: {{  $targetport }}
+  {{- end}}{{- end}}{{- end}}
+{{- end}}
