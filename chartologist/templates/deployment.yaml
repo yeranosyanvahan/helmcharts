@@ -82,7 +82,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: {{.Values.Namespace.name}}
   name: {{ .Values.Deployment.expose }}
 spec:
   selector:
