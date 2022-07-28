@@ -10,15 +10,4 @@ entries:
     urls:
     - https://yeranosyanvahan.github.io/helmcharts/deployment-0.5.0.tgz
     version: 0.5.0
-  remote:
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2022-07-26T21:20:56.723519+04:00"
-    description: A Helm chart for Kubernetes
-    digest: 6ce6222efbb9508634e830c22a28883f2291113c3c8480c638264185ffbe7cd8
-    name: remote
-    type: application
-    urls:
-    - remote-0.5.0.tgz
-    version: 0.5.0
 generated: "2022-07-28T17:15:03.530704218Z"
