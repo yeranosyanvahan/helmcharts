@@ -1,8 +1,7 @@
-{{- range .Values.middlewares }}
+{{- range .Values.Middleware }}
 kind: Middleware
 apiVersion: traefik.containo.us/v1alpha1
 metadata:
-  namespace: {{ $.Values.namespace }}
   name: {{.name}}
 spec:
   {{- .spec | toYaml | nindent 1 }}

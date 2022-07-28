@@ -1,0 +1,9 @@
+# ExternalSecret:
+#  name: vault-example
+#  refreshInterval: "15s"
+#  secretStoreRef:
+#   name: vault-store
+#   kind: ClusterSecretStore
+#  extract:
+#    target: hello
+#    source: secret/foo

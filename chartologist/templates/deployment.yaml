@@ -1,28 +1,27 @@
-{{- if .Values.deploy -}}
+{{- if .Values.Deployment -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: {{.Values.namespace}}
-  name: {{ .Values.deploy.name }}
+  name: {{ .Values.Deployment.name }}
   labels:
-    deployment: {{ .Values.deploy.name }}
+    deployment: {{ .Values.Deployment.name }}
 spec:
   selector:
     matchLabels:
-      deployment: {{ .Values.deploy.expose }}
-  replicas: {{ .Values.deploy.replicas }}
+      deployment: {{ .Values.Deployment.expose }}
+  replicas: {{ .Values.Deployment.replicas }}
   template:
     metadata:
       labels:
-        deployment: {{ .Values.deploy.expose }}
+        deployment: {{ .Values.Deployment.expose }}
     spec:
-      {{- if .Values.deploy.imagePullSecrets }}
+      {{- if .Values.Deployment.imagePullSecrets }}
       imagePullSecrets:
-      {{- range .Values.deploy.imagePullSecrets}}
+      {{- range .Values.Deployment.imagePullSecrets}}
       - name: {{ . }}
       {{- end }} {{- end }}
       containers:
-      {{- range $container := .Values.deploy.containers }}
+      {{- range $container := .Values.Deployment.containers }}
       - image:  {{ .image }}
         imagePullPolicy: Always
         name: {{.name}}
@@ -69,27 +68,27 @@ spec:
 
         {{- end }}
 
-      {{- if .Values.deploy.volumes }}
-      volumes: {{.Values.deploy.volumes | toYaml | nindent 6 }}
+      {{- if .Values.Deployment.volumes }}
+      volumes: {{.Values.Deployment.volumes | toYaml | nindent 6 }}
       {{- end}}
 
-      {{- if .Values.deploy.extra }}
-      {{ .Values.deploy.extra | toYaml | nindent 6 }}
+      {{- if .Values.Deployment.extra }}
+      {{ .Values.Deployment.extra | toYaml | nindent 6 }}
       {{- end}}
 
 {{- end }}
-{{ if  ((.Values.deploy).expose) -}}
+{{ if  ((.Values.Deployment).expose) -}}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: {{.Values.namespace}}
-  name: {{ .Values.deploy.expose }}
+  namespace: {{.Values.Namespace.name}}
+  name: {{ .Values.Deployment.expose }}
 spec:
   selector:
-    deployment: {{ .Values.deploy.expose }}
+    deployment: {{ .Values.Deployment.expose }}
   ports:
-  {{- range .Values.deploy.containers }}{{- range .ports }}{{- range $name_port, $targetport := .}}
+  {{- range .Values.Deployment.containers }}{{- range .ports }}{{- range $name_port, $targetport := .}}
   {{- $portname := (split " " $name_port)._0 }}
   {{- $port := (split " " $name_port)._1 }}
   - name: {{ quote $portname }}

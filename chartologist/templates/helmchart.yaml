@@ -1,8 +1,7 @@
-{{- if .Values.helmchart -}}
+{{- if .Values.HelmChart -}}
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
- name: {{.Values.helmchart.name}}
- namespace: {{.Values.namespace}}
-spec: {{ .Values.helmchart.spec | toYaml | nindent 1 }}
+ name: {{.Values.HelmChart.name}}
+spec: {{ .Values.HelmChart.spec | toYaml | nindent 1 }}
 {{- end}}

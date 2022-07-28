@@ -1,12 +1,11 @@
-{{- if .Values.issuer -}}
+{{- if .Values.Issuer -}}
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  namespace: {{.Values.namespace}}
-  name: {{ .Values.issuer.name }}
+  name: {{ .Values.Issuer.name }}
 spec:
   acme:
-    email: {{ .Values.issuer.email }}
+    email: {{ .Values.Issuer.email }}
     privateKeySecretRef:
       name: letsencrypt-production
     server: https://acme-v02.api.letsencrypt.org/directory
