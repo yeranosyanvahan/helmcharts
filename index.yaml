@@ -2,6 +2,15 @@ apiVersion: v1
 entries:
   chartologist:
   - apiVersion: v2
+    created: "2022-07-28T20:42:05.331343579Z"
+    description: A Helm chart for Kubernetes
+    digest: e5711a5cac964b8a0d6e11d2ac1ef94f65cd3907bfdb0364536bfb4819c2f12c
+    name: chartologist
+    type: application
+    urls:
+    - https://yeranosyanvahan.github.io/helmcharts/chartologist-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
     created: "2022-07-28T17:46:05.563207062Z"
     description: A Helm chart for Kubernetes
     digest: 7423b40321b49d4b327ea4337a66f5ff563b0309a4cd8bd204f8c677f8ab9511
@@ -10,4 +19,4 @@ entries:
     urls:
     - https://yeranosyanvahan.github.io/helmcharts/chartologist-0.5.11.tgz
     version: 0.5.11
-generated: "2022-07-28T17:46:05.562222255Z"
+generated: "2022-07-28T20:42:05.330212371Z"
