@@ -26,6 +26,11 @@ spec:
         imagePullPolicy: Always
         name: {{.name}}
 
+        {{- if $container.envFrom }}
+        envFrom:
+           {{- $container.envFrom | toYaml | nindent 8 }}
+        {{- end}}
+
         {{- if $container.environment}}
 
         env:

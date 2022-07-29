@@ -16,6 +16,9 @@ Deployment:
     image: yeranosyanvahan/yeranosyanvahan.com:latest
     ports:
       - 80: 80
+    envFrom:
+      - secretRef:
+          name: mysecret
 ```
 
 ## Namespace
