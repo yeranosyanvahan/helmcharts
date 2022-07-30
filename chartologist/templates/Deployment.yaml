@@ -6,14 +6,14 @@ metadata:
   labels:
     deployment: {{ .Values.Deployment.name }}
 spec:
+  replicas: {{ .Values.Deployment.replicas }}
   selector:
     matchLabels:
-      deployment: {{ .Values.Deployment.expose }}
-  replicas: {{ .Values.Deployment.replicas }}
+      deployment: {{ .Values.Deployment.name }}
   template:
     metadata:
       labels:
-        deployment: {{ .Values.Deployment.expose }}
+        deployment: {{ .Values.Deployment.name }}
     spec:
       {{- if .Values.Deployment.imagePullSecrets }}
       imagePullSecrets:
@@ -90,7 +90,7 @@ metadata:
   name: {{ .Values.Deployment.expose }}
 spec:
   selector:
-    deployment: {{ .Values.Deployment.expose }}
+    deployment: {{ .Values.Deployment.name }}
   ports:
   {{- range .Values.Deployment.containers }}{{- range .ports }}{{- range $name_port, $targetport := .}}
   {{- $portname := (split " " $name_port)._0 }}
