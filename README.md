@@ -11,6 +11,7 @@ helm install my-release yeranosyanvahan/chartologist
 The modelling is pretty simple:
 For each kubernetes resource there is a yaml variant of it.
 For example:
+
 ## Deployment
 ```
 Deployment:
