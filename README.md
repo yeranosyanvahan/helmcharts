@@ -1,10 +1,17 @@
 # chartologist
+
 This is a general purpose helm charts for everyday kubernetes manifest tasks.
 The main purpose of this chart is to shorten kubernetes manifests for it to fit in one screen.
+### Installation
+```
+helm repo add yeranosyanvahan https://yeranosyanvahan.github.io/helmcharts
+helm install my-release yeranosyanvahan/chartologist
+```
 
 The modelling is pretty simple:
 For each kubernetes resource there is a yaml variant of it.
 For example:
+## Deployment
 ```
 Deployment:
  name: www-yeranosyanvahan-com
@@ -29,7 +36,7 @@ Namespace:
 ```
 ## Ingress
 ```
-ingress:
+Ingress:
   name: example-com
   tls_secret: tls-example-com
   middlewares:
@@ -58,4 +65,3 @@ ExternalSecret:
 
 
 The url for this helmchart
-https://yeranosyanvahan.github.io/helmcharts <br>
