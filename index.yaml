@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   chartologist:
   - apiVersion: v2
+    created: "2022-08-12T09:46:02.617902267Z"
+    description: This is a general purpose helm charts for everyday kubernetes manifest
+      tasks.
+    digest: 8c62f440184c8a639cb16891c26f73b195da1b11f059e52c0b7b76faa37a0281
+    name: chartologist
+    type: application
+    urls:
+    - https://yeranosyanvahan.github.io/helmcharts/chartologist-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
     created: "2022-07-30T19:21:50.771320717Z"
     description: This is a general purpose helm charts for everyday kubernetes manifest
       tasks.
@@ -39,4 +49,4 @@ entries:
     urls:
     - https://yeranosyanvahan.github.io/helmcharts/chartologist-0.5.11.tgz
     version: 0.5.11
-generated: "2022-07-30T19:21:50.770301993Z"
+generated: "2022-08-12T09:46:02.617353553Z"
