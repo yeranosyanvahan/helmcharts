@@ -5,5 +5,6 @@
 #   name: vault-store
 #   kind: ClusterSecretStore
 #  extract:
-#    target: hello
-#    source: secret/foo
+#   template: "sometemplate"
+#   target: hello
+#   source: secret/foo
