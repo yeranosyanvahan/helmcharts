@@ -97,7 +97,7 @@ DB:
   - metaname: pvc-db-example-com
     mountPath: "/var/lib/mysql"
     size: "80Gi"
-    storageClassName: "longhorn"
+    storageClassName: "hostpath"
     accessModes:
       - "ReadWriteOnce"
 
