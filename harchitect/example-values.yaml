@@ -8,8 +8,8 @@ Deployment:
     image: example.com/example-app:example-tag
     environment:
     - TZ: Asia/Yerevan
-    envMapRef:
-    - secrets: secret://secretname:secretkey
+    envVarRef:
+    - Password: secret://secretname:secretkey
 
 CMS:
 - name: example-com
@@ -19,7 +19,7 @@ CMS:
   replicas: 1
   cache:
     enable: false
-  env:
+  environment:
     - database__client: mysql
     - database__connection__host: db.example.com
     - database__connection__user: user 
@@ -43,7 +43,7 @@ CMS:
       upload_max_filesize = 256M
       post_max_size = 256M
       max_execution_time = 300    
-  env:
+  environment:
   - WORDPRESS_DB_HOST: db.example.com
   - WORDPRESS_DB_USER: username
   - WORDPRESS_DB_PASSWORD: password
@@ -80,7 +80,7 @@ CMS:
     exists: true
     volumepath: /odoo/example.com
     mountpath: /var/lib/odoo
-  env:
+  environment:
   - HOST: db.example.com
   - USER: username
   - PASSWORD: password
