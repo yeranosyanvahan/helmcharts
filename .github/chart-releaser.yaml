@@ -1,0 +1,11 @@
+# .github/chart-releaser.yaml
+charts:
+  # Define the directories where your Helm charts are located
+  - name: chartologist
+    path: chartologist
+  - name: harcitect
+    path: harcitect
+  - name: mariadb-wordpress-chart
+    path: mariadb-wordpress-chart
+
+# Optional: Configure other settings as needed
