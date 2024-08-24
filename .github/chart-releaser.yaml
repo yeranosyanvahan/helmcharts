@@ -3,8 +3,8 @@ charts:
   # Define the directories where your Helm charts are located
   - name: chartologist
     path: chartologist
-  - name: harcitect
-    path: harcitect
+  - name: harchitect
+    path: harchitect
   - name: mariadb-wordpress-chart
     path: mariadb-wordpress-chart
 
