@@ -1,3 +1,4 @@
+{{- if .Values.wordpress.phpIni }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,3 +7,4 @@ metadata:
 data:
   php.ini: |
     {{- .Values.wordpress.phpIni | nindent 4 }}
+{{- end }}

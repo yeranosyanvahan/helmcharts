@@ -45,12 +45,16 @@ spec:
           volumeMounts:
             - name: wordpress-pvc
               mountPath: /var/www/html
+            {{- if .Values.wordpress.phpIni }}
             - name: php-ini
               mountPath: /usr/local/etc/php/conf.d
+            {{- end }}
       volumes:
         - name: wordpress-pvc
           persistentVolumeClaim:
             claimName: wordpress-{{ .Values.hostname }}-pvc
+        {{- if .Values.wordpress.phpIni }}
         - name: php-ini
           configMap:
             name: wordpress-{{ .Release.Name }}-php-ini
+        {{- end }}
