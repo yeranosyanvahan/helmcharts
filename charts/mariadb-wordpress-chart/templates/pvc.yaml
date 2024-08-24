@@ -10,4 +10,21 @@ spec:
     requests:
       storage: {{ .Values.persistence.size }}
   storageClassName: {{ .Values.persistence.storageClass }}
-  size: {{ .Values.persistence.size }}
+  volumeMode: Filesystem
+  volumeName: wordpress-{{ .Values.hostname }}-pv
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: wordpress-{{ .Values.hostname }}-pv
+  namespace: {{ .Release.Namespace }}
+spec:
+  capacity:
+    storage: {{ .Values.persistence.size }}
+  accessModes:
+    - ReadWriteMany
+  storageClassName: {{ .Values.persistence.storageClass }}
+  volumeMode: Filesystem
+
+
+
