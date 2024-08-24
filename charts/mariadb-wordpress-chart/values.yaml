@@ -9,9 +9,9 @@ externalDatabaseMariadb:
 
 wordpress:
   replicas: 1
-  phpIni: |-
-    upload_max_filesize = 50M
-    post_max_size = 50M
+  # phpIni: |-  # /usr/local/etc/php/conf.d/php.ini
+  #   upload_max_filesize = 50M
+  #   post_max_size = 50M
 
 persistence: # mountPath: /var/www/html
   storageClass: local-path
