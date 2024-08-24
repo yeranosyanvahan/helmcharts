@@ -7,42 +7,28 @@ on:
 
 jobs:
   release:
+    # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
+    # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
     permissions:
       contents: write
-      pages: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
       - name: Install Helm
-        uses: azure/setup-helm@v3
-        with:
-          version: v3.12.3  # Adjust to your desired Helm version
+        uses: azure/setup-helm@v4
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Package Helm Charts
-        run: |
-          mkdir -p .cr-release-packages
-          helm package chartologist --destination .cr-release-packages
-          helm package harchitect --destination .cr-release-packages
-          helm package mariadb-wordpress-chart --destination .cr-release-packages
-
-      - name: Setup Git
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@users.noreply.github.com"
-
-      - name: Checkout gh-pages branch
-        run: |
-          git fetch origin gh-pages
-          git worktree add gh-pages origin/gh-pages
-
-      - name: Update Helm Chart Repository
-        run: |
-          cp -r .cr-release-packages/* gh-pages/
-          cd gh-pages
-          git add .
-          git commit -m "Update Helm charts"
-          git push origin gh-pages
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.6.0
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
