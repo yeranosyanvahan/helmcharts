@@ -19,8 +19,10 @@ jobs:
       - name: Package Helm Charts
         run: |
           mkdir -p ./output
-          for chart in */templates; do
-            helm package $chart --destination ./output
+          for chart in */; do
+            if [ -f "$chart/Chart.yaml" ]; then
+              helm package $chart --destination ./output
+            fi
           done
       
       - name: Publish Helm Charts to GitHub Pages
