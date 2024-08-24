@@ -1,0 +1,59 @@
+   
+# ExternalSecret:
+#  name: vault-example
+#  refreshInterval: "15s"
+#  secretStoreRef:
+#   name: vault-store
+#   kind: ClusterSecretStore
+#  extract:
+#   template: "sometemplate"
+#   target: hello
+#   source: secret/foo
+
+
+# Namespace:
+#       name: miom-am
+  
+# ConfigMap:
+#   name:  env-example-com
+#   data:
+#     example: "is this" 
+# Ingress:
+#   tls_secret: tls-example-com
+#   name: example-com
+#   middlewares:
+#     - https-only
+#   hosts:
+#   - hostname: example.com
+#     forwardhost: example-com
+#     forwardport: 80  
+
+# Certificate:
+# - name: test-example-com
+#   hostnames:
+#     - test.example.con
+#   secret: tls-example-com
+#   issuer: miom-am
+
+# PersistentVolumeClaim:
+#   name:  test
+#   storageClassName: test
+#   accessModes:
+#     - ReadWriteOnce
+#   storage: 100Mi
+#   PersistentVolume:
+#     nfs:
+#       path: /
+#       readOnly: false
+#       server: test
+
+# Deployment:
+# - name: test
+#   replicas: 1
+#   expose: test
+#   containers:
+#   - name: test
+#     image: test
+#     environment:    
+#       value:    
+#         - test: "test"  

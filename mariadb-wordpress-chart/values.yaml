@@ -1,0 +1,28 @@
+name: example_am-wordpress
+namespace: host-wordpress-public
+hostname: example.com
+
+externalDatabaseMariadb:
+  mariaDbRef:
+    name: mariadb-public000-asset
+    namespace: asset-public-mariadb
+
+wordpress:
+  replicas: 1
+  phpIni: |-
+    upload_max_filesize = 50M
+    post_max_size = 50M
+
+persistence: # mountPath: /var/www/html
+  storageClass: local-path
+  size: 1Gi
+
+ingress:
+  wwwPrefix: false 
+  annotations:
+   cert-manager.io/cluster-issuer: cluster-issuer
+
+# kubearmor:
+#   enabled: true
+#   defaultPosture: audit
+#   securityProfileName: wordpress-strict

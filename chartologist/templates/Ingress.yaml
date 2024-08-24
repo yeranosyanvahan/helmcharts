@@ -1,0 +1,36 @@
+{{- if .Values.Ingress -}}
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{ .Values.Ingress.name }}
+  {{- if .Values.Ingress.middlewares }}
+  {{- $middlewares := list }}
+  {{- range $middleware := .Values.Ingress.middlewares }}
+   {{- $middleware := print $.Values.Namespace.name "-" $middleware "@kubernetescrd"  }}
+   {{- $middlewares = append $middlewares $middleware  }}
+  {{- end}}
+  annotations:
+    "traefik.ingress.kubernetes.io/router.middlewares": {{ $middlewares | join ", "  }}
+  {{- end}}
+spec:
+  tls:
+    {{- if .Values.Ingress.tls_secret }}
+    {{- range .Values.Ingress.hosts }}
+    - hosts:
+      - {{ .hostname }}
+      secretName: {{ $.Values.Ingress.tls_secret }}
+    {{- end}} {{- end}}
+  rules:
+  {{- range .Values.Ingress.hosts }}
+  - host: {{ .hostname }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ .forwardhost }}
+            port:
+              number: {{ .forwardport }}
+        path: /
+        pathType: Prefix
+  {{- end}}
+{{- end}}
