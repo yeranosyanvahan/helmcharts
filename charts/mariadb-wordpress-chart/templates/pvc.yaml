@@ -13,6 +13,7 @@ spec:
   volumeMode: Filesystem
   volumeName: wordpress-{{ .Values.hostname }}-pv
 ---
+{{- if eq (lower .Values.persistence.storageClass) "hostpath" }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -25,6 +26,6 @@ spec:
     - ReadWriteMany
   storageClassName: {{ .Values.persistence.storageClass }}
   volumeMode: Filesystem
-  local:
-    path: >-
-      /var/lib/rancher/k3s/storage/pvc-wordpress-{{ .Values.hostname }}-pv
+  hostPath:
+    path: /var/lib/rancher/k3s/storage/pvc-wordpress-{{ .Values.hostname }}-pv
+{{- end}}
