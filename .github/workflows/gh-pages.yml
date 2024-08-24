@@ -9,6 +9,7 @@ jobs:
   release:
     permissions:
       contents: write
+      pages: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -21,23 +22,27 @@ jobs:
         with:
           version: v3.12.3  # Adjust to your desired Helm version
 
-      - name: Install Chart Releaser
-        run: |
-          curl -sSL https://github.com/helm/chart-releaser/releases/download/v1.6.0/chart-releaser_1.6.0_linux_amd64.tar.gz | tar xz
-          sudo mv cr /usr/local/bin
-
       - name: Package Helm Charts
         run: |
           mkdir -p .cr-release-packages
           helm package chartologist --destination .cr-release-packages
-          helm package harchitect --destination .cr-release-packages
+          helm package harcitect --destination .cr-release-packages
           helm package mariadb-wordpress-chart --destination .cr-release-packages
 
-      - name: Run Chart Releaser
+      - name: Setup Git
         run: |
-          cr upload --config .github/chart-releaser.yaml \
-                    --owner ${{ github.repository_owner }} \
-                    --git-repo ${{ github.repository }} \
-                    --token ${{ secrets.GITHUB_TOKEN }} \
-                    --package-path .cr-release-packages \
-                    --push
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+
+      - name: Checkout gh-pages branch
+        run: |
+          git fetch origin gh-pages
+          git worktree add gh-pages origin/gh-pages
+
+      - name: Update Helm Chart Repository
+        run: |
+          cp -r .cr-release-packages/* gh-pages/
+          cd gh-pages
+          git add .
+          git commit -m "Update Helm charts"
+          git push origin gh-pages
