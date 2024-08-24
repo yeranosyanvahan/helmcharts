@@ -32,7 +32,7 @@ metadata:
 spec:
   type: ClusterIP  # Explicitly specify the service type
   selector:
-    app: {{ .Release.Name }}  # Corrected selector key to match typical patterns
+    deployment: {{ .Release.Name }}  # Corrected selector key to match typical patterns
   ports:
     - protocol: TCP
       port: 80
