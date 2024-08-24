@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: wordpress-{{ .Release.Name }}-php-ini
-  namespace: {{ .Release.Namespace }}
-data:
-  php.ini: |
-    {{- .Values.wordpress.phpIni | nindent 4 }}
