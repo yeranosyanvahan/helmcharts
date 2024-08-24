@@ -20,14 +20,14 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Release.Name }}-svc  # Name of the backend service
+                name: {{ .Release.Name | replace "." "-" }}-svc  # Name of the backend service
                 port:
                   number: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-svc
+  name: {{ .Release.Name | replace "." "-" }}-svc
   namespace: {{ .Release.Namespace }}  # Use Helm's namespace here
 spec:
   type: ClusterIP  # Explicitly specify the service type
