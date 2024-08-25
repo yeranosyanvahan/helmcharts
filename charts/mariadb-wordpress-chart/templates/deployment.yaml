@@ -47,7 +47,8 @@ spec:
               mountPath: /var/www/html
             {{- if .Values.wordpress.phpIni }}
             - name: php-ini
-              mountPath: /usr/local/etc/php/conf.d
+              mountPath: /usr/local/etc/php/conf.d/php.ini
+              subPath: php.ini
             {{- end }}
       volumes:
         - name: wordpress-pvc
