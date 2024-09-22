@@ -21,6 +21,22 @@ spec:
           image: wordpress:6.6-php8.3-apache
           ports:
             - containerPort: 80
+          {{- if and .Values.wordpress .Values.wordpress.apache }}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    {{- range .Values.wordpress.apache.enconf }}
+                    /usr/sbin/a2enconf {{ . }} &&
+                    {{- end }}
+                    {{- range .Values.wordpress.apache.disconf }}
+                    /usr/sbin/a2disconf {{ . }} &&
+                    {{- end }}
+                    /usr/sbin/service apache2 reload
+          {{- end }}
           env:
             - name: WORDPRESS_DB_HOST
               valueFrom:
