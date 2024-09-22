@@ -8,3 +8,17 @@ data:
   php.ini: |
     {{- .Values.wordpress.phpIni | nindent 4 }}
 {{- end }}
+---
+{{- if .Values.wordpress.apacheConf }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wordpress-{{ .Release.Name }}-apache-conf
+  namespace: {{ .Release.Namespace }}
+data:
+  apache.conf: |
+    {{- .Values.wordpress.apacheConf | nindent 4 }}
+{{- end }}
+
+
+
