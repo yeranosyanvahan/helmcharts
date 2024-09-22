@@ -50,7 +50,6 @@ spec:
               mountPath: /usr/local/etc/php/conf.d/php.ini
               subPath: php.ini
             {{- end }}
-            {{- if .Values.wordpress.apacheConf }}
             - name: confavailable-apache-conf
               mountPath: /etc/apache2/conf-available/cloudflare.conf
               subPath: cloudflare.conf
