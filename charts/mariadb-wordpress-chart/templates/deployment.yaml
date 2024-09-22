@@ -51,10 +51,9 @@ spec:
               subPath: php.ini
             {{- end }}
             {{- if .Values.wordpress.apacheConf }}
-            - name: apache-conf
-              mountPath: /etc/apache2/conf-available/custom.conf
-              subPath: apache.conf
-            {{- end }}
+            - name: confavailable-apache-conf
+              mountPath: /etc/apache2/conf-available/cloudflare.conf
+              subPath: cloudflare.conf
       volumes:
         - name: wordpress-pvc
           persistentVolumeClaim:
@@ -64,8 +63,6 @@ spec:
           configMap:
             name: wordpress-{{ .Release.Name }}-php-ini
         {{- end }}
-        {{- if .Values.wordpress.apacheConf }}
-        - name: apache-conf
+        - name: confavailable-apache-conf
           configMap:
-            name: wordpress-{{ .Release.Name }}-apache-conf
-        {{- end }}
+            name: wordpress-{{ .Release.Name }}-confavailable-apache-conf
