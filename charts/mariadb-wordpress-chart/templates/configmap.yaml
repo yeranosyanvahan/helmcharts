@@ -9,7 +9,6 @@ data:
     {{- .Values.wordpress.phpIni | nindent 4 }}
 {{- end }}
 ---
-{{- if .Values.wordpress.apacheConf }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -49,7 +48,3 @@ data:
     RemoteIPTrustedProxy 2405:8100::/32
     RemoteIPTrustedProxy 2a06:98c0::/29
     RemoteIPTrustedProxy 2c0f:f248::/32
-{{- end }}
-
-
-
