@@ -41,22 +41,22 @@ spec:
             - name: WORDPRESS_DB_HOST
               valueFrom:
                 secretKeyRef:
-                  name: wordpress-{{ .Values.hostname }}-connection
+                  name: wordpress-{{ include "name" . }}-connection
                   key: host
             - name: WORDPRESS_DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: wordpress-{{ .Values.hostname }}-connection
+                  name: wordpress-{{ include "name" . }}-connection
                   key: username
             - name: WORDPRESS_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: wordpress-{{ .Values.hostname }}-connection
+                  name: wordpress-{{ include "name" . }}-connection
                   key: password
             - name: WORDPRESS_DB_NAME
               valueFrom:
                 secretKeyRef:
-                  name: wordpress-{{ .Values.hostname }}-connection
+                  name: wordpress-{{ include "name" . }}-connection
                   key: database
           volumeMounts:
             - name: wordpress-pvc
@@ -72,7 +72,7 @@ spec:
       volumes:
         - name: wordpress-pvc
           persistentVolumeClaim:
-            claimName: wordpress-{{ .Values.hostname }}-pvc
+            claimName: wordpress-{{ include "name" . }}-pvc
         {{- if .Values.wordpress.phpIni }}
         - name: php-ini
           configMap:

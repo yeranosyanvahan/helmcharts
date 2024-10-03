@@ -1,7 +1,7 @@
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: Database
 metadata:
-  name: wordpress-{{ .Values.hostname }}-database
+  name: wordpress-{{ include "name" . }}-database
   namespace: {{ .Release.Namespace }}
 spec:
   mariaDbRef:
@@ -13,14 +13,14 @@ spec:
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: User
 metadata:
-  name:  wordpress-{{ .Values.hostname }}-user
+  name:  wordpress-{{ include "name" . }}-user
   namespace: {{ .Release.Namespace }}
 spec:
   mariaDbRef:
     name: {{ .Values.externalDatabaseMariadb.mariaDbRef.name }}
     namespace: {{ .Values.externalDatabaseMariadb.mariaDbRef.namespace }}
   passwordSecretKeyRef:
-    name: mariadb-{{ .Values.hostname }}-secret
+    name: mariadb-{{ include "name" . }}-secret
     key: mariadb-password
   maxUserConnections: 20
   host: {{ (default "%" .Values.wordpress.host) | quote }}
@@ -28,7 +28,7 @@ spec:
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: Grant
 metadata:
-  name: wordpress-{{ .Values.hostname }}-grant
+  name: wordpress-{{ include "name" . }}-grant
   namespace: {{ .Release.Namespace }}
 spec:
   mariaDbRef:
@@ -43,29 +43,29 @@ spec:
     - "ALTER"
     - "INDEX"
     #- "ALL PRIVILEGES"
-  database: wordpress-{{ .Values.hostname }}-database
-  username: wordpress-{{ .Values.hostname }}-user
+  database: wordpress-{{ include "name" . }}-database
+  username: wordpress-{{ include "name" . }}-user
   grantOption: false
   host: {{ (default "%" .Values.wordpress.host) | quote }}
 ---
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: Connection
 metadata:
-  name: wordpress-{{ .Values.hostname }}-connection
+  name: wordpress-{{ include "name" . }}-connection
 spec:
   mariaDbRef:
     name: {{ .Values.externalDatabaseMariadb.mariaDbRef.name }}
     namespace: {{ .Values.externalDatabaseMariadb.mariaDbRef.namespace }}
-  username: wordpress-{{ .Values.hostname }}-user
+  username: wordpress-{{ include "name" . }}-user
   passwordSecretKeyRef:
-    name: mariadb-{{ .Values.hostname }}-secret
+    name: mariadb-{{ include "name" . }}-secret
     key: mariadb-password
-  database: wordpress-{{ .Values.hostname }}-database
-  secretName: wordpress-{{ .Values.hostname }}-connection
+  database: wordpress-{{ include "name" . }}-database
+  secretName: wordpress-{{ include "name" . }}-connection
   secretTemplate:
     metadata:
       labels:
-        k8s.mariadb.com/connection:  wordpress-{{ .Values.hostname }}-connection
+        k8s.mariadb.com/connection:  wordpress-{{ include "name" . }}-connection
     usernameKey: username
     passwordKey: password
     hostKey: host

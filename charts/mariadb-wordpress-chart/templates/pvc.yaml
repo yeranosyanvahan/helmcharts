@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: wordpress-{{ .Values.hostname }}-pvc
+  name: wordpress-{{ include "name" . }}-pvc
   namespace: {{ .Release.Namespace }}
 spec:
   accessModes:
@@ -11,13 +11,13 @@ spec:
       storage: {{ .Values.persistence.size }}
   storageClassName: {{ .Values.persistence.storageClass }}
   volumeMode: Filesystem
-  volumeName: wordpress-{{ .Values.hostname }}-pv
+  volumeName: wordpress-{{ include "name" . }}-pv
 ---
 {{- if eq (lower .Values.persistence.storageClass) "hostpath" }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: wordpress-{{ .Values.hostname }}-pv
+  name: wordpress-{{ include "name" . }}-pv
 spec:
   persistentVolumeReclaimPolicy: Delete
   capacity:
@@ -27,5 +27,5 @@ spec:
   storageClassName: {{ .Values.persistence.storageClass }}
   volumeMode: Filesystem
   hostPath:
-    path: /var/lib/rancher/k3s/storage/pvc-wordpress-{{ .Values.hostname }}-pv
+    path: /var/lib/rancher/k3s/storage/pvc-wordpress-{{ include "name" . }}-pv
 {{- end}}
