@@ -11,9 +11,9 @@ spec:
       storage: {{ .Values.persistence.size }}
   storageClassName: {{ .Values.persistence.storageClass }}
   volumeMode: Filesystem
+{{- if eq (lower .Values.persistence.storageClass) "hostpath" }}
   volumeName: wordpress-{{ include "name" . }}-pv
 ---
-{{- if eq (lower .Values.persistence.storageClass) "hostpath" }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
