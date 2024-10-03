@@ -10,10 +10,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - {{ .Values.hostname }}
-      secretName: {{ .Values.hostname }}-tls  # Name of the TLS Secret for SSL/TLS
+      - {{ .Values.ingress.hostname }}
+      secretName: {{ .Values.ingress.hostname }}-tls  # Name of the TLS Secret for SSL/TLS
   rules:
-    - host: {{ .Values.hostname }}
+    - host: {{ .Values.ingress.hostname }}
       http:
         paths:
           - path: /

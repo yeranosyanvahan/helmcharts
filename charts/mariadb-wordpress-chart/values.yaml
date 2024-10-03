@@ -1,28 +1,21 @@
-name: example_am-wordpress
-namespace: host-wordpress-public
-hostname: example.com
+ingress:
+  hostname: example.com
+  wwwPrefix: false 
+
+wordpress:
+  phpIni: |-
+    upload_max_filesize = 1G  ; default 2M
+    post_max_size = 1G        ; default 8M
+    max_execution_time = 600  ; default 30
+  apache:
+    enconf: [cloudflare]
+    disconf: [remoteip]
 
 externalDatabaseMariadb:
   mariaDbRef:
     name: mariadb-public000-asset
     namespace: asset-public-mariadb
 
-wordpress:
-  replicas: 1
-  # phpIni: |-  # /usr/local/etc/php/conf.d/php.ini
-  #   upload_max_filesize = 50M
-  #   post_max_size = 50M
-
 persistence: # mountPath: /var/www/html
-  storageClass: local-path
+  storageClass: local-path # will create a persistent storage if it is local-path
   size: 1Gi
-
-ingress:
-  wwwPrefix: false 
-  annotations:
-   cert-manager.io/cluster-issuer: cluster-issuer
-
-# kubearmor:
-#   enabled: true
-#   defaultPosture: audit
-#   securityProfileName: wordpress-strict
