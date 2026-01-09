@@ -26,4 +26,4 @@ externalDatabaseMariadb:
 persistence: # mountPath: /var/www/html
   storageClass: local-path # will create a persistent storage if it is local-path
   size: 1Gi
-  accessModes: [ReadWriteMany]
+  accessModes: [ReadWriteOnce]
