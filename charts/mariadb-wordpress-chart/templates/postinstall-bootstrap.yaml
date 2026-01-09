@@ -1,0 +1,95 @@
+{{- if and .Values.wordpress.init .Values.wordpress.init.adminPassword .Values.wordpress.init.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-wordpress-bootstrap
+  labels:
+    app.kubernetes.io/name: {{ include "chart.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    metadata:
+      labels:
+        job: {{ .Release.Name }}-wordpress-bootstrap
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: bootstrap
+          image: wordpress:cli-php8.3
+          env:
+            - name: WORDPRESS_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: wordpress-{{ include "name" . }}-connection
+                  key: host
+            - name: WORDPRESS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: wordpress-{{ include "name" . }}-connection
+                  key: username
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wordpress-{{ include "name" . }}-connection
+                  key: password
+            - name: WORDPRESS_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: wordpress-{{ include "name" . }}-connection
+                  key: database
+
+            - name: WORDPRESS_URL
+              value: {{ .Values.wordpress.init.url | quote }}
+            - name: WORDPRESS_TITLE
+              value: {{ .Values.wordpress.init.title | quote }}
+            - name: WORDPRESS_ADMIN_USER
+              value: {{ .Values.wordpress.init.adminUser | quote }}
+            - name: WORDPRESS_ADMIN_PASSWORD
+              value: {{ .Values.wordpress.init.adminPassword | quote }}
+            - name: WORDPRESS_ADMIN_EMAIL
+              value: {{ .Values.wordpress.init.adminEmail | quote }}
+
+          volumeMounts:
+            - name: wordpress-data
+              mountPath: /var/www/html
+
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              cd /var/www/html
+
+              echo "👉 Checking if WordPress is already installed..."
+              if [ -f wp-config.php ]; then
+                echo "✅ wp-config.php exists, skipping bootstrap."
+                exit 0
+              fi
+
+              echo "👉 Creating config..."
+              wp config create \
+                --dbname="$WORDPRESS_DB_NAME" \
+                --dbuser="$WORDPRESS_DB_USER" \
+                --dbpass="$WORDPRESS_DB_PASSWORD" \
+                --dbhost="$WORDPRESS_DB_HOST" \
+                --skip-check
+
+              echo "👉 Running core install..."
+              wp core install \
+                --url="$WORDPRESS_URL" \
+                --title="$WORDPRESS_TITLE" \
+                --admin_user="$WORDPRESS_ADMIN_USER" \
+                --admin_password="$WORDPRESS_ADMIN_PASSWORD" \
+                --admin_email="$WORDPRESS_ADMIN_EMAIL"
+
+              echo "🎉 WordPress bootstrap completed."
+
+      volumes:
+        - name: wordpress-data
+          persistentVolumeClaim:
+            claimName: wordpress-{{ include "name" . }}-pvc
+{{- end }}

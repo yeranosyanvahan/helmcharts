@@ -1,3 +1,11 @@
+init:
+  enabled: false
+  url: "https://example.com"
+  title: "My Blog"
+  adminUser: "admin"
+  adminPassword: "supersecret"
+  adminEmail: "admin@example.com"
+
 ingress:
   hostname: example.com
   wwwPrefix: false 
