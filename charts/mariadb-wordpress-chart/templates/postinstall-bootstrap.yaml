@@ -1,4 +1,4 @@
-{{- if and .Values.wordpress.init .Values.wordpress.init.adminPassword .Values.wordpress.init.enabled }}
+{{- if and .Values.wordpress.init .Values.wordpress.init.adminPassword (eq .Values.wordpress.init.enabled true) }}
 apiVersion: batch/v1
 kind: Job
 metadata:
