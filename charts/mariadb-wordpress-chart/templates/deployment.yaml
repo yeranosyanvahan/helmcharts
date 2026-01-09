@@ -21,6 +21,15 @@ spec:
           image: wordpress:6.6-php8.3-apache
           ports:
             - containerPort: 80
+          resources:
+            limits:
+              cpu: 375m
+              ephemeral-storage: 2Gi
+              memory: 384Mi
+            requests:
+              cpu: 250m
+              ephemeral-storage: 50Mi
+              memory: 256Mi
           {{- if and .Values.wordpress .Values.wordpress.apache }}
           lifecycle:
             postStart:

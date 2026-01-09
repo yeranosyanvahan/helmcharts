@@ -1,4 +1,4 @@
 apiVersion: v2
 name: mariadb-wordpress-chart
 description: A Helm chart for deploying WordPress with MariaDB
-version: 0.8.2
+version: 0.8.3
