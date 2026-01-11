@@ -1,6 +1,7 @@
 ingress:
   hostname: example.com
-  wwwPrefix: false 
+  enabled: false
+  wwwPrefix: false
 
 wordpress:
   init:

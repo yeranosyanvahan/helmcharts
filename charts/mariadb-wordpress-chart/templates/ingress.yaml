@@ -1,3 +1,4 @@
+{{- if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -11,7 +12,7 @@ spec:
   tls:
     - hosts:
       - {{ .Values.ingress.hostname }}
-      secretName: {{ .Values.ingress.hostname }}-tls  # Name of the TLS Secret for SSL/TLS
+      secretName: {{ .Values.ingress.hostname }}-tls
   rules:
     - host: {{ .Values.ingress.hostname }}
       http:
@@ -20,7 +21,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Release.Name | replace "." "-" }}-svc  # Name of the backend service
+                name: {{ .Release.Name | replace "." "-" }}-svc
                 port:
                   number: 80
 ---
@@ -28,13 +29,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name | replace "." "-" }}-svc
-  namespace: {{ .Release.Namespace }}  # Use Helm's namespace here
+  namespace: {{ .Release.Namespace }}
 spec:
-  type: ClusterIP  # Explicitly specify the service type
+  type: ClusterIP
   selector:
-    deployment: {{ .Release.Name }}  # Corrected selector key to match typical patterns
+    deployment: {{ .Release.Name }}
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
-
+{{- end }}
