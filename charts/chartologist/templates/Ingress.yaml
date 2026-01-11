@@ -6,7 +6,7 @@ metadata:
   {{- if .Values.Ingress.middlewares }}
   {{- $middlewares := list }}
   {{- range $middleware := .Values.Ingress.middlewares }}
-   {{- $middleware := print $.Values.Namespace.name "-" $middleware "@kubernetescrd"  }}
+   {{- $middleware := print $.Release.Namespace "-" $middleware "@kubernetescrd"  }}
    {{- $middlewares = append $middlewares $middleware  }}
   {{- end}}
   annotations:

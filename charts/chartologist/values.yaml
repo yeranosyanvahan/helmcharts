@@ -19,10 +19,9 @@
 #   data:
 #     example: "is this" 
 # Ingress:
-#   tls_secret: tls-example-com
+#   annotations:
+#     anno: tation
 #   name: example-com
-#   middlewares:
-#     - https-only
 #   hosts:
 #   - hostname: example.com
 #     forwardhost: example-com
