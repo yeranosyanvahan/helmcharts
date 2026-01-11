@@ -204,6 +204,14 @@ entries:
     version: 0.1.1
   mariadb-wordpress-chart:
   - apiVersion: v2
+    created: "2026-01-11T14:24:12.967250575Z"
+    description: A Helm chart for deploying WordPress with MariaDB
+    digest: d72ed8b7d45d87b3c28222360294778d7e666898b018640cf3e38b73d0f8fda3
+    name: mariadb-wordpress-chart
+    urls:
+    - https://github.com/yeranosyanvahan/helmcharts/releases/download/mariadb-wordpress-chart-0.10.0/mariadb-wordpress-chart-0.10.0.tgz
+    version: 0.10.0
+  - apiVersion: v2
     created: "2026-01-11T13:52:20.461364902Z"
     description: A Helm chart for deploying WordPress with MariaDB
     digest: ea046bdffc3ed56d35c1d791f37688c41f365050b2d74502433d660e18e960f9
@@ -507,4 +515,4 @@ entries:
     urls:
     - https://github.com/yeranosyanvahan/helmcharts/releases/download/mariadb-wordpress-chart-0.1.6/mariadb-wordpress-chart-0.1.6.tgz
     version: 0.1.6
-generated: "2026-01-11T14:00:22.094359907Z"
+generated: "2026-01-11T14:24:12.967694832Z"
