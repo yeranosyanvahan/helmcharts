@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   chartologist:
   - apiVersion: v2
+    created: "2026-01-11T13:52:20.300759323Z"
+    description: This is a general purpose helm charts for everyday kubernetes manifest
+      tasks.
+    digest: 96f39da6307a7a42307f595f76346f5d201f581b050c2e1672ec8738f99bee7e
+    name: chartologist
+    type: application
+    urls:
+    - https://github.com/yeranosyanvahan/helmcharts/releases/download/chartologist-1.6.1/chartologist-1.6.1.tgz
+    version: 1.6.1
+  - apiVersion: v2
     created: "2026-01-11T05:24:17.885219754Z"
     description: This is a general purpose helm charts for everyday kubernetes manifest
       tasks.
@@ -183,6 +193,14 @@ entries:
     - https://yeranosyanvahan.github.io/helmcharts/harchitect-0.1.1.tgz
     version: 0.1.1
   mariadb-wordpress-chart:
+  - apiVersion: v2
+    created: "2026-01-11T13:52:20.461364902Z"
+    description: A Helm chart for deploying WordPress with MariaDB
+    digest: ea046bdffc3ed56d35c1d791f37688c41f365050b2d74502433d660e18e960f9
+    name: mariadb-wordpress-chart
+    urls:
+    - https://github.com/yeranosyanvahan/helmcharts/releases/download/mariadb-wordpress-chart-0.9.9/mariadb-wordpress-chart-0.9.9.tgz
+    version: 0.9.9
   - apiVersion: v2
     created: "2026-01-09T06:46:21.836682462Z"
     description: A Helm chart for deploying WordPress with MariaDB
@@ -479,4 +497,4 @@ entries:
     urls:
     - https://github.com/yeranosyanvahan/helmcharts/releases/download/mariadb-wordpress-chart-0.1.6/mariadb-wordpress-chart-0.1.6.tgz
     version: 0.1.6
-generated: "2026-01-11T05:24:17.885418404Z"
+generated: "2026-01-11T13:52:20.461934893Z"
