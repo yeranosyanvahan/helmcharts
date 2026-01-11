@@ -21,6 +21,7 @@
 # Ingress:
 #   annotations:
 #     anno: tation
+#   tls_secret: tls-example-com
 #   name: example-com
 #   hosts:
 #   - hostname: example.com
