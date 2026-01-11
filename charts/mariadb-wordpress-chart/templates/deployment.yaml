@@ -27,7 +27,7 @@ spec:
               ephemeral-storage: 2Gi
               memory: 384Mi
             requests:
-              cpu: 250m
+              cpu: 50m
               ephemeral-storage: 50Mi
               memory: 256Mi
           {{- if and .Values.wordpress .Values.wordpress.apache }}
