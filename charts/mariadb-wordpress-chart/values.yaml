@@ -1,30 +1,35 @@
-ingress:
-  hostname: example.com
-  enabled: false
-  wwwPrefix: false
-
-wordpress:
-  init:
-    enabled: false
-    url: "https://example.com"
-    title: "My Blog"
-    adminUser: "admin"
-    adminPassword: "supersecret"
-    adminEmail: "admin@example.com"
-  phpIni: |-
-    upload_max_filesize = 1G  ; default 2M
-    post_max_size = 1G        ; default 8M
-    max_execution_time = 600  ; default 30
-  apache:
-    enconf: [cloudflare]
-    disconf: [remoteip]
-
 externalDatabaseMariadb:
   mariaDbRef:
     name: mariadb-public000-asset
     namespace: asset-public-mariadb
-
-persistence: # mountPath: /var/www/html
-  storageClass: local-path # will create a persistent storage if it is local-path
-  size: 1Gi
-  accessModes: [ReadWriteOnce]
+ingress:
+  enabled: true
+  hostname: wp308.web.miom.am
+  wwwPrefix: false
+  annotations:
+    kubernetes.io/ingress.class: traefik
+persistence:
+  accessModes:
+    - ReadWriteOnce
+  size: 12Gi
+  storageClass: local-path
+wordpress:
+  apache:
+    disconf:
+      - cloudflare
+    enconf:
+      - remoteip
+  init:
+    adminEmail: admin@example.com
+    adminPassword: supersecret
+    adminUser: admin
+    enabled: false
+    title: My Blog
+    url: https://example.com
+  phpIni: |-
+    file_uploads = On         ; default On
+    memory_limit = 128M       ; default 128M
+    upload_max_filesize = 1G  ; default 2M
+    post_max_size = 1G        ; default 8M
+    max_execution_time = 600  ; default 30
+  replicas: 1
