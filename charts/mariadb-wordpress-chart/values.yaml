@@ -14,11 +14,11 @@ persistence:
   size: 12Gi
   storageClass: local-path
 wordpress:
-  apache:
-    disconf:
-      - cloudflare
-    enconf:
-      - remoteip
+  # apache:
+  #   disconf:
+  #     - cloudflare
+  #   enconf:
+  #     - remoteip
   init:
     adminEmail: admin@example.com
     adminPassword: supersecret
