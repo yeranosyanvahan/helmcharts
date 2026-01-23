@@ -80,6 +80,6 @@ spec:
         - name: odoo-conf
           configMap:
             name: odoo-{{ .Release.Name }}-odoo-conf
-        - name: confavailable-apache-conf
+        - name: pgbouncer-config
           configMap:
-            name: odoo-{{ .Release.Name }}-confavailable-apache-conf
+            name: odoo-{{ .Release.Name }}-pgbouncer-config
