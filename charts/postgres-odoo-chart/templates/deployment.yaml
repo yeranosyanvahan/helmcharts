@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    deployment: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.odoo.replicas }}
+  selector:
+    matchLabels:
+      deployment: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        deployment: {{ .Release.Name }}
+    spec:
+      automountServiceAccountToken: false
+      initContainers:
+        - name: odoo-init
+          image: odoo:19
+          securityContext:
+            runAsUser: 0
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 150m
+              memory: 192Mi
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /var/lib/odoo/extra-addons
+              odoo -c /etc/odoo/odoo.conf -i base --stop-after-init
+              echo "u=env['res.users'].search([('login','=','admin')],limit=1); u.password='{{ .Values.odoo.init.adminPassword }}'; env.cr.commit()" \
+              | odoo shell -d odoo --no-http --shell-file=/dev/stdin
+          volumeMounts:
+            - name: odoo-conf
+              mountPath: /etc/odoo/odoo.conf
+              subPath: odoo.conf
+            - name: odoo-pvc
+              mountPath: /var/lib/odoo
+
+      containers:
+        - name: odoo
+          image: odoo:19
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: 375m
+              ephemeral-storage: 2Gi
+              memory: 384Mi
+            requests:
+              cpu: 50m
+              ephemeral-storage: 50Mi
+              memory: 256Mi
+          volumeMounts:
+            - name: odoo-pvc
+              mountPath: /var/lib/odoo
+            - name: odoo-conf
+              mountPath: /etc/odoo/odoo.conf
+              subPath: odoo.conf
+        - name: pgbouncer
+          image: edoburu/pgbouncer:1.15.0
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: pgbouncer-config
+              mountPath: /etc/pgbouncer
+          command:
+            - pgbouncer
+            - /etc/pgbouncer/pgbouncer.ini
+      volumes:
+        - name: odoo-pvc
+          persistentVolumeClaim:
+            claimName: odoo-{{ include "name" . }}-pvc
+        - name: odoo-conf
+          configMap:
+            name: odoo-{{ .Release.Name }}-odoo-conf
+        - name: confavailable-apache-conf
+          configMap:
+            name: odoo-{{ .Release.Name }}-confavailable-apache-conf

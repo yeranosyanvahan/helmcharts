@@ -1,0 +1,13 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: odoo-{{ include "name" . }}-database
+  namespace: asset-public-postgres
+spec:
+  name: odoo-od100.web.miom.am-database
+  owner: postgres-public001-user
+  cluster:
+    name: {{ .Values.externalDatabase.cluster.name }}
+    namespace: {{ .Values.externalDatabase.cluster.namespace }}
+    
+    apiVersion: k8s.mariadb.com/v1alpha1
