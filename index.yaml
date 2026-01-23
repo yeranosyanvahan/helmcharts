@@ -531,4 +531,13 @@ entries:
     urls:
     - https://github.com/yeranosyanvahan/helmcharts/releases/download/mariadb-wordpress-chart-0.1.6/mariadb-wordpress-chart-0.1.6.tgz
     version: 0.1.6
-generated: "2026-01-11T17:46:34.939013514Z"
+  postgres-odoo-chart:
+  - apiVersion: v2
+    created: "2026-01-23T19:30:43.744673422Z"
+    description: A Helm chart for deploying Odoo with Postgres
+    digest: ebd24e390854389c8fb88ed1b9086abd7f7def88dd96659d148263d3d56c6ca6
+    name: postgres-odoo-chart
+    urls:
+    - https://github.com/yeranosyanvahan/helmcharts/releases/download/postgres-odoo-chart-0.0.1/postgres-odoo-chart-0.0.1.tgz
+    version: 0.0.1
+generated: "2026-01-23T19:30:43.744816018Z"
