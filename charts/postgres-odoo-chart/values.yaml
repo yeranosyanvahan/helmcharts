@@ -18,7 +18,7 @@ persistence:
 odoo:
   init:
     adminPassword: admin
-  odooConf:
-    options: |-
-      workers: 0 
+  odooConfOptions: |
+    workers = 0
+    limit_memory_hard = 512000000
   replicas: 1

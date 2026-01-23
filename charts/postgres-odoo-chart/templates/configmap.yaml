@@ -14,8 +14,8 @@ data:
     db_user = odoo
     db_password = odoo
     db_name = odoo
-    {{- if .Values.odoo.odooConf.options }}
-      {{- .Values.odoo.odooConf.options | nindent 4 }}
+    {{- if .Values.odoo.odooConfOptions }}
+      {{- .Values.odoo.odooConfOptions | nindent 4 }}
     {{- end }}
 ---
 apiVersion: v1
