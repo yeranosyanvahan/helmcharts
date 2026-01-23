@@ -1,4 +1,4 @@
 apiVersion: v2
 name: postgres-odoo-chart
 description: A Helm chart for deploying Odoo with Postgres
-version: 0.0.2
+version: 0.0.3

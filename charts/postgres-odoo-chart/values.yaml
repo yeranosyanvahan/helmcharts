@@ -18,8 +18,7 @@ persistence:
 odoo:
   init:
     adminPassword: admin
-  odooConf: |-
-    proxy_mode = True
-    addons_path = /var/lib/odoo/extra-addons
-    data_dir = /var/lib/odoo
+  odooConf:
+    options: |-
+      workers: 0 
   replicas: 1
