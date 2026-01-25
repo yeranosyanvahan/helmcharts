@@ -4,7 +4,7 @@ metadata:
   name: odoo-{{ include "name" . }}-database
   namespace: asset-public-postgres
 spec:
-  name: odoo-od100.web.miom.am-database
+  name: odoo-{{ include "name" . }}-database
   owner: postgres-public001-user
   cluster:
     name: {{ .Values.externalDatabase.cluster.name }}
