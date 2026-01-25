@@ -41,7 +41,7 @@ spec:
 
               echo "Waiting for PgBouncer on localhost:5432..."
 
-              until (echo > /dev/tcp/127.0.0.1/5432) >/dev/null 2>&1; do
+              until psql "postgresql://odoo:odoo@127.0.0.1:5432/odoo" -c '\q' >/dev/null 2>&1; do
                 sleep 2
               done
               echo "PgBouncer is up"

@@ -10,4 +10,3 @@ spec:
     name: {{ .Values.externalDatabase.cluster.name }}
     namespace: {{ .Values.externalDatabase.cluster.namespace }}
     
-    apiVersion: k8s.mariadb.com/v1alpha1
