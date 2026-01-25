@@ -16,32 +16,6 @@ spec:
         deployment: {{ .Release.Name }}
     spec:
       automountServiceAccountToken: false
-      initContainers:
-        - name: odoo-init
-          image: odoo:19
-          securityContext:
-            runAsUser: 0
-          resources:
-            requests:
-              cpu: 100m
-              memory: 128Mi
-            limits:
-              cpu: 150m
-              memory: 192Mi
-          command:
-            - sh
-            - -c
-            - |
-              mkdir -p /var/lib/odoo/extra-addons
-              odoo -c /etc/odoo/odoo.conf -i base --stop-after-init
-              echo "u=env['res.users'].search([('login','=','admin')],limit=1); u.password='{{ .Values.odoo.init.adminPassword }}'; env.cr.commit()" \
-              | odoo shell -d odoo --no-http --shell-file=/dev/stdin
-          volumeMounts:
-            - name: odoo-conf
-              mountPath: /etc/odoo/odoo.conf
-              subPath: odoo.conf
-            - name: odoo-pvc
-              mountPath: /var/lib/odoo
 
       containers:
         - name: odoo
@@ -57,12 +31,51 @@ spec:
               cpu: 50m
               ephemeral-storage: 50Mi
               memory: 256Mi
+
+          command: ["sh", "-c"]
+          args:
+            - |
+              set -e
+
+              BOOTSTRAP_MARKER="/var/lib/odoo/.bootstrapped"
+
+              echo "Waiting for PgBouncer on localhost:5432..."
+              until nc -z 127.0.0.1 5432; do
+                sleep 2
+              done
+              echo "PgBouncer is up"
+
+              mkdir -p /var/lib/odoo/extra-addons
+
+              if [ -f "$BOOTSTRAP_MARKER" ]; then
+                echo "Already bootstrapped ($BOOTSTRAP_MARKER exists). Skipping bootstrap."
+              else
+                echo "Bootstrap marker not found. Running first-time bootstrap..."
+
+                echo "Running Odoo init (base module)..."
+                odoo -c /etc/odoo/odoo.conf -i base --stop-after-init
+
+                echo "Setting admin password..."
+                echo "u=env['res.users'].search([('login','=','admin')],limit=1); u.password='{{ .Values.odoo.init.adminPassword }}'; env.cr.commit()" \
+                | odoo shell -d odoo --no-http --shell-file=/dev/stdin
+
+                echo "Creating bootstrap marker..."
+                touch "$BOOTSTRAP_MARKER"
+
+                echo "Bootstrap complete."
+              fi
+
+              echo "Starting original container CMD..."
+              exec "$@"
+            - odoo
+
           volumeMounts:
             - name: odoo-pvc
               mountPath: /var/lib/odoo
             - name: odoo-conf
               mountPath: /etc/odoo/odoo.conf
               subPath: odoo.conf
+
         - name: pgbouncer
           image: edoburu/pgbouncer:1.15.0
           ports:
@@ -73,6 +86,7 @@ spec:
           command:
             - pgbouncer
             - /etc/pgbouncer/pgbouncer.ini
+
       volumes:
         - name: odoo-pvc
           persistentVolumeClaim:
