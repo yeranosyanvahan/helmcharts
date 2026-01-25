@@ -27,6 +27,7 @@ data:
   pgbouncer.ini: |
     [databases]
     odoo = host={{ .Values.externalDatabase.cluster.name }}-rw.{{ .Values.externalDatabase.cluster.namespace }}.svc.cluster.local port=5432 dbname={{ .Values.externalDatabase.cluster.name }}
+    postgres = host={{ .Values.externalDatabase.cluster.name }}-rw.{{ .Values.externalDatabase.cluster.namespace }}.svc.cluster.local port=5432 dbname={{ .Values.externalDatabase.cluster.name }}
 
     [pgbouncer]
     listen_addr = 0.0.0.0

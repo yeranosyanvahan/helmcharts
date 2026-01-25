@@ -40,7 +40,8 @@ spec:
               BOOTSTRAP_MARKER="/var/lib/odoo/.bootstrapped"
 
               echo "Waiting for PgBouncer on localhost:5432..."
-              until nc -z 127.0.0.1 5432; do
+
+              until (echo > /dev/tcp/127.0.0.1/5432) >/dev/null 2>&1; do
                 sleep 2
               done
               echo "PgBouncer is up"
@@ -52,8 +53,8 @@ spec:
               else
                 echo "Bootstrap marker not found. Running first-time bootstrap..."
 
-                echo "Running Odoo init (base module)..."
-                odoo -c /etc/odoo/odoo.conf -i base --stop-after-init
+                echo "Running Odoo init (base module) on 'odoo' database..."
+                odoo -c /etc/odoo/odoo.conf -d odoo -i base --stop-after-init
 
                 echo "Setting admin password..."
                 echo "u=env['res.users'].search([('login','=','admin')],limit=1); u.password='{{ .Values.odoo.init.adminPassword }}'; env.cr.commit()" \
@@ -68,6 +69,8 @@ spec:
               echo "Starting original container CMD..."
               exec "$@"
             - odoo
+            - -c
+            - /etc/odoo/odoo.conf
 
           volumeMounts:
             - name: odoo-pvc
