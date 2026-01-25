@@ -533,6 +533,14 @@ entries:
     version: 0.1.6
   postgres-odoo-chart:
   - apiVersion: v2
+    created: "2026-01-25T10:45:40.646425924Z"
+    description: A Helm chart for deploying Odoo with Postgres
+    digest: b10fe171331d78f22bae2a2d3a94ce1b947a320c70a2c88318480f82c05fc438
+    name: postgres-odoo-chart
+    urls:
+    - https://github.com/yeranosyanvahan/helmcharts/releases/download/postgres-odoo-chart-0.0.9/postgres-odoo-chart-0.0.9.tgz
+    version: 0.0.9
+  - apiVersion: v2
     created: "2026-01-25T10:40:12.972226272Z"
     description: A Helm chart for deploying Odoo with Postgres
     digest: 484e0a4debc5fcf1eefaee3569bb07597391d8ec624fece7c2f813a0bbe5b160
@@ -596,4 +604,4 @@ entries:
     urls:
     - https://github.com/yeranosyanvahan/helmcharts/releases/download/postgres-odoo-chart-0.0.1/postgres-odoo-chart-0.0.1.tgz
     version: 0.0.1
-generated: "2026-01-25T10:40:12.972402961Z"
+generated: "2026-01-25T10:45:40.646673707Z"
