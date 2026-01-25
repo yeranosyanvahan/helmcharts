@@ -66,12 +66,9 @@ spec:
                 echo "Bootstrap complete."
               fi
 
-              echo "Starting original container CMD..."
-              exec "$@"
-            - odoo
-            - -c
-            - /etc/odoo/odoo.conf
-
+              echo "Starting Odoo..."
+              exec odoo -c /etc/odoo/odoo.conf
+              
           volumeMounts:
             - name: odoo-pvc
               mountPath: /var/lib/odoo
