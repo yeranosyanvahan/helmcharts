@@ -2,10 +2,10 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: odoo-{{ include "name" . }}-database
-  namespace: asset-public-postgres
+  namespace: {{ .Values.externalDatabase.cluster.namespace }}
 spec:
   name: odoo-{{ include "name" . }}-database
-  owner: postgres-public001-user
+  owner: {{ .Values.externalDatabase.username }}
   cluster:
     name: {{ .Values.externalDatabase.cluster.name }}
     namespace: {{ .Values.externalDatabase.cluster.namespace }}
