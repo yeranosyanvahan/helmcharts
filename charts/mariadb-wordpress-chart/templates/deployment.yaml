@@ -22,14 +22,7 @@ spec:
           ports:
             - containerPort: 80
           resources:
-            limits:
-              cpu: 375m
-              ephemeral-storage: 2Gi
-              memory: 384Mi
-            requests:
-              cpu: 50m
-              ephemeral-storage: 50Mi
-              memory: 256Mi
+            {{- toYaml .Values.wordpress.resources | nindent 12 }}
           {{- if and .Values.wordpress .Values.wordpress.apache }}
           lifecycle:
             postStart:
