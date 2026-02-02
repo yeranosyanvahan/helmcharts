@@ -204,6 +204,14 @@ entries:
     version: 0.1.1
   mariadb-wordpress-chart:
   - apiVersion: v2
+    created: "2026-02-02T11:21:24.980047384Z"
+    description: A Helm chart for deploying WordPress with MariaDB
+    digest: fc886b72510dbcda1bdae5edc44063aa84699f7990a1fdbd9a4931c5b2a13292
+    name: mariadb-wordpress-chart
+    urls:
+    - https://github.com/yeranosyanvahan/helmcharts/releases/download/mariadb-wordpress-chart-0.12.1/mariadb-wordpress-chart-0.12.1.tgz
+    version: 0.12.1
+  - apiVersion: v2
     created: "2026-02-02T11:04:35.288660156Z"
     description: A Helm chart for deploying WordPress with MariaDB
     digest: 18f800e1db781facc70c9c9a2e339f98bb262045766778a8931541ebbe97899a
@@ -636,4 +644,4 @@ entries:
     urls:
     - https://github.com/yeranosyanvahan/helmcharts/releases/download/postgres-odoo-chart-0.0.1/postgres-odoo-chart-0.0.1.tgz
     version: 0.0.1
-generated: "2026-02-02T11:04:35.289117671Z"
+generated: "2026-02-02T11:21:24.980522606Z"
